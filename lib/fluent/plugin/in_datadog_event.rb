@@ -1,6 +1,5 @@
 module Fluent
   class InDatadogEvent < Fluent::Input
-    #Fluent::Plugin.register_input('in_datadog_event', self)
     Fluent::Plugin.register_input('datadog_event', self)
 
     unless method_defined?(:log)

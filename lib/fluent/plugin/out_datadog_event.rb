@@ -1,6 +1,5 @@
 module Fluent
   class OutDatadogEvent < Fluent::Output
-    #Fluent::Plugin.register_output('out_datadog_event', self)
     Fluent::Plugin.register_output('datadog_event', self)
 
     unless method_defined?(:log)
