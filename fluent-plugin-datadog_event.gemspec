@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{fluentd plugin for datadog event}
   spec.description   = %q{fluentd plugin for datadog event}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/inokappa/fluent-plugin-datadog_event"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
