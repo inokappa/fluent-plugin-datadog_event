@@ -7,3 +7,13 @@
 /pkg/
 /spec/reports/
 /tmp/
+*.gem
+.bundle
+Gemfile.lock
+pkg/*
+*.tmproj
+tmtags
+*~
+\#*
+.\#*
+*.swp
