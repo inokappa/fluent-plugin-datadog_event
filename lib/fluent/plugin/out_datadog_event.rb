@@ -8,9 +8,8 @@ module Fluent
 
     config_param :api_key, :string
     config_param :app_key, :string, :default => nil
-    config_param :date_happend, :string, :default => nil
+    config_param :msg_title, :string, :default => 'fluentd Datadog Event'
     config_param :priority, :string, :default => nil
-    # config_param :host, :string, :default => nil
     config_param :tags, :string, :default => nil
     config_param :alert_type, :string, :default => nil
     config_param :aggregation_key, :string, :default => nil
@@ -20,6 +19,7 @@ module Fluent
       super
       #
       require "dogapi"
+      require "date"
     end
 
     def start
@@ -35,18 +35,15 @@ module Fluent
     def emit(tag, es, chain)
       chain.next
       es.each do |time,record|
-        record.select do |k,v|
-          event_msg = record[k]
-          post_event(k, event_msg)
-        end
+        post_event(time, "record", record)
       end
     end
 
-    def post_event(event_key, event_msg)
+    def post_event(time, event_key, event_msg)
       res = @dog.emit_event(Dogapi::Event.new(
         "#{event_msg}", 
-        :msg_title => "#{event_key}", 
-        :date_happend => @date_happend,
+        :msg_title => @msg_title, 
+        :date_happend => time,
         :priority => @priority,
         # :host => @host,
         :tags => @tags,
