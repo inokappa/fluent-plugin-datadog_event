@@ -1,3 +1,5 @@
+require 'fluent/mixin/rewrite_tag_name'
+
 module Fluent
   class InDatadogEvent < Fluent::Input
     Fluent::Plugin.register_input('datadog_event', self)
@@ -10,6 +12,8 @@ module Fluent
       define_method("router") { Fluent::Engine }
     end
 
+    include Fluent::HandleTagNameMixin
+    include Fluent::Mixin::RewriteTagName
     config_param :api_key, :string
     config_param :app_key, :string, :default => nil
     config_param :priority, :string, :default => nil
@@ -63,6 +67,8 @@ module Fluent
           event_id = e["id"]
           unless read_id(event_id) then
             time = e["date_happened"]
+            emit_tag = tag.dup
+            filter_record(emit_tag, time, record)
             router.emit(@tag, time, e)
             store_read_id(event_id)
           end
