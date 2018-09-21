@@ -1,8 +1,6 @@
 # Fluent::Plugin::DatadogEvent
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/fluent/plugin/datadog_event`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Generates Datadog events from matching fluent records.
 
 ## Installation
 
@@ -20,20 +18,46 @@ Or install it yourself as:
 
     $ gem install fluent-plugin-datadog_event
 
-## Usage
+(latter path depending upon acceptance)
 
-TODO: Write usage instructions here
+## Configuration
 
-## Development
+### Syntax
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+```
+<match ddevents.info>
+  type datadog_event
+  # DD api key - mandatory
+  api_key MyApIKey110123kjla7
+  # all other config parameters are optional
+  # datadog specific tags associated with event
+  tags fluentevent
+  # alert type: info, warning, error, or success
+  alert_type info
+  # aggregation key - anything with this unique value will be considered an additional instance of the same event
+  aggregation_key "my_aggregation_key"
+  # Message title 
+  msg_title "My app event"
+  # Source name - for filtering by event source
+  source_type_name "my_app_named"
+</match>
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### Dynamic config
 
-## Contributing
+Tag values can be used for configuration, leading to a config style such as:
 
-1. Fork it ( https://github.com/[my-github-username]/fluent-plugin-datadog_event/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+```
+<match ddevents.**>
+  type datadog_event
+  api_key yOuraPIKeyaaAAAAaA
+  tags fluentevent
+  alert_type $tag_parts[2]
+  aggregation_key $tag_parts[1]
+  msg_title "App event: ${tag_parts[1]}"
+  source_type_name "fluent-${tag_parts[1])"
+</match>
+```
+
+With the above config, an event tagged as 'ddevents.myapp.info' would be handled at the level of info, with "myapp" as part of the messahe, source_type, and aggregation key - Use of rewrite-tag-names can make this very flexible.
+
