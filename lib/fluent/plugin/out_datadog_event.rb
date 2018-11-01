@@ -55,6 +55,7 @@ module Fluent::Plugin
         host = @host
         if !host
             host = record["host"]
+        end
 
         res = @dog.emit_event(Dogapi::Event.new(
             "#{record}",
