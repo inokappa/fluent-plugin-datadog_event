@@ -41,8 +41,9 @@ module Fluent::Plugin
     end
 
     def start
+        super
+
         @dog = Dogapi::Client.new(@api_key, @app_key)
-        @finished = false
     end
 
     def write(chunk)
