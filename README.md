@@ -4,16 +4,9 @@ Generates Datadog events from matching fluent records.
 
 ## Installation (from original source)
 
-    $ gem install fluent-plugin-dogstatsd
-
-
-## Installation (from this fork)
-
-```bash
-    gem install specific_install
-    gem specific_install https://github.com/maginetv/fluent-plugin-datadog_event.git
 ```
-
+$ gem install fluent-plugin-datadog_event
+```
 
 ## Configuration
 

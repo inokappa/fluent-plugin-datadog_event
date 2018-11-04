@@ -17,3 +17,5 @@ tmtags
 \#*
 .\#*
 *.swp
+.envrc
+/vendor/
