@@ -23,6 +23,8 @@ unless ENV.has_key?('VERBOSE')
   $log = nulllogger
 end
 
+require 'fluent/test/driver/output'
+
 require 'fluent/plugin/out_datadog_event'
 
 class Test::Unit::TestCase
