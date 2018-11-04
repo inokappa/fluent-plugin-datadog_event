@@ -2,7 +2,7 @@
 
 Generates Datadog events from matching fluent records.
 
-## Installation (from original source)
+## Installation 
 
 ```
 $ gem install fluent-plugin-datadog_event
